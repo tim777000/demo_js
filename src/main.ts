@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api'); // 明確設定全域前綴
 
   const config = new DocumentBuilder()
     .setTitle('API Example')
@@ -12,7 +13,7 @@ async function bootstrap() {
     .addTag('example')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/swagger', app, document); // 將 Swagger UI 掛載在根目錄
 
   await app.listen(process.env.PORT ?? 3000);
 }
